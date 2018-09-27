@@ -1,5 +1,20 @@
 #!/bin/bash
 
+if [ ! -d /media/card ]; then
+	echo "Temporary mount point [/media/card] not found"
+	exit 1
+fi
+
+if [ -z "${OETMP}" ]; then
+	echo "OETMP environment variable not set"
+	exit 1
+fi
+
+if [ -z "${MACHINE}" ]; then
+	echo "MACHINE environment variable not set"
+	exit 1
+fi
+
 if [ -z "${DSTDIR}" ]; then
 	DSTDIR=~/rpi/upload
 fi
@@ -7,11 +22,6 @@ if [ -z "${IMG}" ]; then
 	IMG=qt5
 fi
 IMG_LONG="${IMG}-image-${MACHINE}"
-
-if [ ! -d /media/card ]; then
-        echo "Temporary mount point [/media/card] not found"
-        exit 1
-fi
 
 if [ "x${1}" = "x" ]; then
 	CARDSIZE=2
@@ -24,16 +34,6 @@ else
 		echo "Unsupported card size: ${1}"
 		exit 1
 	fi
-fi
-
-if [ -z "${OETMP}" ]; then
-	echo "OETMP environment variable not set"
-	exit 1
-fi
-
-if [ -z "${MACHINE}" ]; then
-	echo "MACHINE environment variable not set"
-	exit 1
 fi
 
 HOSTNAME=${MACHINE}
